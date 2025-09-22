@@ -30,6 +30,8 @@ const CreateCardModal: React.FC<CreateCardModalProps> = ({
   const [newCardTitle, setNewCardTitle] = useState<string>("");
   const [newCardDescription, setNewCardDescription] = useState<string>("");
   const [newCardImgUrl, setNewCardImgUrl] = useState<string>("");
+  const [newCardAssigneeName, setNewCardAssigneeName] = useState<string>(""); // New state for assignee name
+  const [newCardStoryPoints, setNewCardStoryPoints] = useState<number | undefined>(undefined); // New state for story points
   const [isCreatingCard, setIsCreatingCard] = useState<boolean>(false);
 
   const handleCreateCard = async (e: React.FormEvent) => {
@@ -41,10 +43,14 @@ const CreateCardModal: React.FC<CreateCardModalProps> = ({
         description: newCardDescription || undefined,
         imgUrl: newCardImgUrl || undefined,
         status: "TODO", // New cards always start as TODO
+        assigneeName: newCardAssigneeName || undefined, // Include assignee name
+        storyPoints: newCardStoryPoints, // Include story points
       });
       setNewCardTitle("");
       setNewCardDescription("");
       setNewCardImgUrl("");
+      setNewCardAssigneeName(""); // Reset assignee name
+      setNewCardStoryPoints(undefined); // Reset story points
       onOpenChange(false);
       onCardCreated(); // Notify parent to refresh card list
     } catch (err: any) {
@@ -101,6 +107,29 @@ const CreateCardModal: React.FC<CreateCardModalProps> = ({
               id="new-imgUrl"
               value={newCardImgUrl}
               onChange={(e) => setNewCardImgUrl(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="new-assigneeName" className="text-right">
+              Assignee Name
+            </Label>
+            <Input
+              id="new-assigneeName"
+              value={newCardAssigneeName}
+              onChange={(e) => setNewCardAssigneeName(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="new-storyPoints" className="text-right">
+              Story Points
+            </Label>
+            <Input
+              id="new-storyPoints"
+              type="number"
+              value={newCardStoryPoints === undefined ? "" : newCardStoryPoints}
+              onChange={(e) => setNewCardStoryPoints(e.target.value === "" ? undefined : Number(e.target.value))}
               className="col-span-3"
             />
           </div>

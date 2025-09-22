@@ -10,13 +10,17 @@ export interface Card {
   status: CardStatus;
   createdAt: string;
   updatedAt: string;
+  assigneeName?: string;
+  storyPoints?: number; // Added storyPoints
 }
 
 interface CreateCardDto {
   title: string;
   description?: string;
   imgUrl?: string;
-  status?: CardStatus; // Optional for creation, as it has a default
+  status?: CardStatus;
+  assigneeName?: string;
+  storyPoints?: number; // Added storyPoints
 }
 
 interface UpdateCardDto {
@@ -24,6 +28,8 @@ interface UpdateCardDto {
   description?: string;
   imgUrl?: string;
   status?: CardStatus;
+  assigneeName?: string;
+  storyPoints?: number; // Added storyPoints
 }
 
 export const createCard = async (cardData: CreateCardDto): Promise<Card> => {

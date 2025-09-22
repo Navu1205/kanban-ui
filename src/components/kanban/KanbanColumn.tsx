@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { Card, CardStatus } from "@/lib/api/card.api";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -83,9 +83,21 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
                           {card.description}
                         </p>
                       )}
-                      {card.imgUrl && (
+                      {card.assigneeName && (
+                        <span
+                          className={`px-1.5 py-0.5 text-xs font-semibold rounded-full whitespace-nowrap bg-purple-200 text-gray-800 mt-1`}
+                        >
+                          Assignee: {card.assigneeName}
+                        </span>
+                      )}
+                      {card.storyPoints !== undefined && (
+                        <span className="px-1.5 py-0.5 text-xs font-semibold rounded-full whitespace-nowrap bg-green-200 text-gray-700 mt-1 ml-1">
+                          SP: {card.storyPoints}
+                        </span>
+                      )}
+                      {card.imgUrl && card.imgUrl.trim() !== "" && (
                         <div className="mt-2">
-                          <Image
+                          <img
                             src={card.imgUrl}
                             alt={card.title}
                             width={200}

@@ -40,6 +40,8 @@ const UpdateCardModal: React.FC<UpdateCardModalProps> = ({
   const [editedDescription, setEditedDescription] = useState<string>("");
   const [editedImgUrl, setEditedImgUrl] = useState<string>("");
   const [editedStatus, setEditedStatus] = useState<CardStatus>("TODO");
+  const [editedAssigneeName, setEditedAssigneeName] = useState<string>(""); // New state for assignee name
+  const [editedStoryPoints, setEditedStoryPoints] = useState<number | undefined>(undefined); // New state for story points
   const [isUpdatingCard, setIsUpdatingCard] = useState<boolean>(false);
 
   useEffect(() => {
@@ -48,12 +50,16 @@ const UpdateCardModal: React.FC<UpdateCardModalProps> = ({
       setEditedDescription(card.description || "");
       setEditedImgUrl(card.imgUrl || "");
       setEditedStatus(card.status);
+      setEditedAssigneeName(card.assigneeName || "");
+      setEditedStoryPoints(card.storyPoints ?? undefined); // Handle null for storyPoints
     } else {
       // Reset fields when modal closes or no card is selected
       setEditedTitle("");
       setEditedDescription("");
       setEditedImgUrl("");
       setEditedStatus("TODO");
+      setEditedAssigneeName("");
+      setEditedStoryPoints(undefined);
     }
   }, [card]);
 
@@ -68,6 +74,8 @@ const UpdateCardModal: React.FC<UpdateCardModalProps> = ({
         description: editedDescription || undefined,
         imgUrl: editedImgUrl || undefined,
         status: editedStatus,
+        assigneeName: editedAssigneeName || undefined,
+        storyPoints: editedStoryPoints,
       });
       onOpenChange(false);
       onCardUpdated(); // Notify parent to refresh card list
@@ -85,7 +93,7 @@ const UpdateCardModal: React.FC<UpdateCardModalProps> = ({
         <DialogHeader>
           <DialogTitle>Edit Card</DialogTitle>
           <DialogDescription>
-            Make changes to your card here. Click save when you're done.
+            Make changes to your card here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleUpdateCard} className="grid gap-4 py-4">
@@ -120,6 +128,29 @@ const UpdateCardModal: React.FC<UpdateCardModalProps> = ({
               id="edit-imgUrl"
               value={editedImgUrl}
               onChange={(e) => setEditedImgUrl(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="edit-assigneeName" className="text-right">
+              Assignee Name
+            </Label>
+            <Input
+              id="edit-assigneeName"
+              value={editedAssigneeName}
+              onChange={(e) => setEditedAssigneeName(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="edit-storyPoints" className="text-right">
+              Story Points
+            </Label>
+            <Input
+              id="edit-storyPoints"
+              type="number"
+              value={editedStoryPoints ?? ""} // Use nullish coalescing for value
+              onChange={(e) => setEditedStoryPoints(e.target.value === "" ? undefined : Number(e.target.value))}
               className="col-span-3"
             />
           </div>
