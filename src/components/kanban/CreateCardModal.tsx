@@ -49,7 +49,9 @@ const CreateCardModal: React.FC<CreateCardModalProps> = ({
       onCardCreated(); // Notify parent to refresh card list
     } catch (err: any) {
       console.error("Failed to create card:", err);
-      alert("Failed to create card: " + (err.response?.data?.message || err.message));
+      alert(
+        "Failed to create card: " + (err.response?.data?.message || err.message)
+      );
     } finally {
       setIsCreatingCard(false);
     }
@@ -58,7 +60,7 @@ const CreateCardModal: React.FC<CreateCardModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button>Add Card</Button>
+        <Button size={"sm"}>Add Card</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

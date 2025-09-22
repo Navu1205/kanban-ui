@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getCards, Card, CardStatus, updateCard } from "@/lib/api/card.api";
+import { getCards, updateCard, Card, CardStatus } from "@/lib/api/card.api";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 
 import KanbanColumn from "./KanbanColumn";
@@ -9,6 +9,7 @@ import CreateCardModal from "./CreateCardModal";
 import UpdateCardModal from "./UpdateCardModal";
 import DeleteCardModal from "./DeleteCardModal";
 import { CARD_STATUS_OPTIONS } from "@/lib/kanban.utils";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function KanbanBoardComponent() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -31,7 +32,7 @@ export default function KanbanBoardComponent() {
       setLoading(true);
       const fetchedCards = await getCards();
       setCards(fetchedCards);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Failed to fetch cards");
     } finally {
@@ -119,11 +120,14 @@ export default function KanbanBoardComponent() {
     <div className="flex flex-col h-screen p-6 bg-gray-50">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Kanban Board</h1>
-        <CreateCardModal
-          isOpen={isCreateModalOpen}
-          onOpenChange={setIsCreateModalOpen}
-          onCardCreated={fetchCards}
-        />
+        <div className="flex gap-2">
+          <CreateCardModal
+            isOpen={isCreateModalOpen}
+            onOpenChange={setIsCreateModalOpen}
+            onCardCreated={fetchCards}
+          />
+          <LogoutButton />
+        </div>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 flex-grow">
