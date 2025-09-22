@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001",
+  baseURL: "https://kanban-server-o4s0.onrender.com/",
 });
 
 httpClient.interceptors.request.use(
